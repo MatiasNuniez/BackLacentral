@@ -20,7 +20,7 @@ export class LoginController {
                         check: true
                     }
                     const token = jsonwebtoken.sign(payload, this.key, { expiresIn: '12h' })
-                    res.cookie('user', 'holahola', {maxAge:43200000, secure:true, httpOnly:false, sameSite:'none'})
+                    res.cookie('user2', 'holahola', {maxAge:43200000, secure:true, httpOnly:false, sameSite:'none'})
                     res.cookie('token', token, {maxAge:43200000})
                     res.status(200).send({data, token})
                 } else {
