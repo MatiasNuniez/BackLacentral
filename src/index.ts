@@ -19,7 +19,7 @@ class Server extends Database {
     
     this.app.use(express.json())
 
-    this.app.use(cors({ origin: '*',methods: ['GET', 'POST', 'PUT', 'DELETE'],allowedHeaders: '*'}))
+    this.app.use(cors({ origin: '*',allowedHeaders: '*'}))
 
     this.app.use(cookiesParser())
     
