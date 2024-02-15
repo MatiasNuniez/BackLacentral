@@ -15,12 +15,12 @@ export class LoginController {
         try {
             const { user, password } = req.body
             await loginModel.find({ user: { $eq: user } }).then((data) => {
-                console.log(data);
                 if ((user === data[0].user) && (password === data[0].password)) {
                     const payload = {
                         check: true
                     }
                     const token = jsonwebtoken.sign(payload, this.key, { expiresIn: '12h' })
+                    res.cookie('MatiaS', 'AHJSDGHJASDASD')
                     res.cookie('user', data[0].user, {maxAge:43200000})
                     res.cookie('token', token, {maxAge:43200000})
                     res.status(200).send({data, token})
