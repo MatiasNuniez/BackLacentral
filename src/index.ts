@@ -1,5 +1,5 @@
 import { Database } from "./db";
-import express, { Response, Request } from 'express'
+import express, { Response, Request, NextFunction } from 'express'
 import cookiesParser from 'cookie-parser'
 import { GeneralRouter } from "./routes/general.route";
 import { RotosRouter } from "./routes/rotos.route";
@@ -16,17 +16,17 @@ class Server extends Database {
   constructor() {
 
     super()
-
-    this.app.use(function(req, res, next) {
-      res.header('Access-Control-Allow-Origin', 'https://front-lacentral.vercel.app/login');
-      res.header('Access-Control-Allow-Credentials', 'true');
-      res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
-      next();
-    });
     
     this.app.use(express.json())
 
-    this.app.use(cors({ origin: '*',allowedHeaders: '*'}))
+    this.app.use(cors({
+      origin: '*',
+      // Habilitar el intercambio de cookies y credenciales
+      credentials: true,
+    }));
+    
+    // Middleware para permitir opciones de preflight CORS
+    this.app.options('*', cors());
 
     this.app.use(cookiesParser())
     
