@@ -9,9 +9,9 @@ export class PrestadosRouter extends BaseRouter<PrestadosController, AuthMiddlew
     }
 
     routes(): void {
-        this.router.get('/prestados', (req, res, next) => this.middleware.verifyIdentity(req, res, next), (req, res) => this.controller.getElements(req, res))
-        this.router.post('/prestados', (req, res, next) => this.middleware.verifyIdentity(req, res, next), (req, res) => this.controller.insertElement(req, res))
-        this.router.put('/prestados/:id', (req, res, next) => this.middleware.verifyIdentity(req, res, next), (req, res) => this.controller.editElement(req, res))
-        this.router.delete('/prestados/:id', (req, res, next) => this.middleware.verifyIdentity(req, res, next), (req, res) => this.controller.deleteElement(req, res))
+        this.router.get('/prestados', (req, res) => this.controller.getElements(req, res))
+        this.router.post('/prestados', (req, res) => this.controller.insertElement(req, res))
+        this.router.put('/prestados/:id', (req, res) => this.controller.editElement(req, res))
+        this.router.delete('/prestados/:id', (req, res) => this.controller.deleteElement(req, res))
     }
 }

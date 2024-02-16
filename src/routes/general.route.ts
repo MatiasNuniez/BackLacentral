@@ -9,9 +9,11 @@ export class GeneralRouter extends BaseRouter<GeneralController, AuthMiddleware>
   }
 
   routes(): void {
-    this.router.get('/general', (req, res, next) => this.middleware.verifyIdentity(req, res, next), (req, res) => this.controller.getElements(req, res))
-    this.router.post('/general', (req, res, next) => this.middleware.verifyIdentity(req, res, next), (req, res) => this.controller.insertElement(req, res))
-    this.router.put('/general/:id', (req, res, next) => this.middleware.verifyIdentity(req, res, next), (req, res) => this.controller.editElement(req, res))
-    this.router.delete('/general/:id', (req, res, next) => this.middleware.verifyIdentity(req, res, next), (req, res) => this.controller.deleteElement(req, res))
+    this.router.get('/general', (req, res) => this.controller.getElements(req, res))
+    this.router.post('/general', (req, res) => this.controller.insertElement(req, res))
+    this.router.put('/general/:id', (req, res) => this.controller.editElement(req, res))
+    this.router.delete('/general/:id', (req, res) => this.controller.deleteElement(req, res))
   }
 }
+
+// , (req, res, next) => this.middleware.verifyIdentity(req, res, next),
