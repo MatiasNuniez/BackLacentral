@@ -20,9 +20,9 @@ export class LoginController {
                         check: true
                     }
                     const token = jsonwebtoken.sign(payload, this.key, { expiresIn: '12h' })
-                    res.cookie('user2', 'holahola', {maxAge:43200000, secure:true, httpOnly:false, sameSite:'none'})
-                    res.cookie('token', token, {maxAge:43200000})
-                    res.status(200).send({data, token})
+                    res.cookie('user',data[0].user, { maxAge: 43200000, secure: true, httpOnly: false, sameSite: 'none' })
+                    res.cookie('token', token, { maxAge: 43200000, secure: true, httpOnly: false, sameSite: 'none' })
+                    res.status(200).send({ data, token })
                 } else {
                     res.json({ error: 'Contrasena o usuario invalido' })
                 }
