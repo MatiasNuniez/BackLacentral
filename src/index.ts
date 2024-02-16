@@ -16,20 +16,20 @@ class Server extends Database {
   constructor() {
 
     super()
-    
+
     this.app.use(express.json())
 
     this.app.use(cors({
-      origin: '*',
+      origin: 'https://front-lacentral.vercel.app',
       // Habilitar el intercambio de cookies y credenciales
       credentials: true,
     }));
-    
+
     // Middleware para permitir opciones de preflight CORS
     this.app.options('*', cors());
 
     this.app.use(cookiesParser())
-    
+
     this.app.use('/api', this.routers())
 
     this.listen()
