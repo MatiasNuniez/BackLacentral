@@ -1,43 +1,64 @@
 import { Request, Response } from "express";
 import { modelGeneral } from "../models/general.model";
+import { AuthMiddleware } from "../middlewares/auth.middleware";
 
-export class GeneralController {
+export class GeneralController extends AuthMiddleware {
 
   async getElements(req: Request, res: Response) {
-    try {
-      await modelGeneral.find({ state: true }).then((data) => {
-        res.send(data)
-      })
-    } catch (error) {
-      res.send({ ERROR: error })
+    const auth = await this.verifyIdentity(req, res)
+    if (auth) {
+      try {
+        await modelGeneral.find({ state: true }).then((data) => {
+          res.send(data)
+        })
+      } catch (error) {
+        res.send({ ERROR: error })
+      }
+    }
+    else{
+      res.send('No tienes los permisos necesarios')
     }
   }
 
   async insertElement(req: Request, res: Response) {
-    try {
-      const data = req.body
+    const auth = await this.verifyIdentity(req, res)
+    if (auth) {
+      try {
+        const data = req.body
         await modelGeneral.insertMany(data)
-    } catch (error) {
-      res.send({ ERROR: error })
+      } catch (error) {
+        res.send({ ERROR: error })
+      }
     }
+    res.send('No tienes los permisos necesarios')
   }
 
   async editElement(req: Request, res: Response) {
-    try {
-      const { id } = req.params
-      const update = req.body
-      await modelGeneral.updateOne({ _id: id }, update)
-    } catch (error) {
-      res.send({ ERROR: error })
+    const auth = await this.verifyIdentity(req, res)
+    if (auth) {
+      try {
+        const { id } = req.params
+        const update = req.body
+        await modelGeneral.updateOne({ _id: id }, update)
+      } catch (error) {
+        res.send({ ERROR: error })
+      }
+    }else{
+      res.send('No tienes los permisos necesarios')
     }
   }
 
   async deleteElement(req: Request, res: Response) {
-    try {
-      const { id } = req.params
-      await modelGeneral.updateOne({ _id: id }, { $set: { state: false } })
-    } catch (error) {
-      res.send({ ERROR: error })
+    const auth = await this.verifyIdentity(req, res)
+    if (auth) {
+      try {
+        const { id } = req.params
+        await modelGeneral.updateOne({ _id: id }, { $set: { state: false } })
+      } catch (error) {
+        res.send({ ERROR: error })
+      }
+    }else{
+      res.send('No tienes los permisos necesarios')
     }
   }
 }
