@@ -20,7 +20,7 @@ class Server extends Database {
     this.app.use(express.json())
 
     this.app.use(cors({
-      origin: 'https://front-lacentral.vercel.app',
+      origin: 'https://fornt-lacentral-d.vercel.app',
       // Habilitar el intercambio de cookies y credenciales
       credentials: true,
     }));
