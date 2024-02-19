@@ -20,13 +20,8 @@ class Server extends Database {
     this.app.use(express.json())
 
     this.app.use(cors({
-      origin: 'https://fornt-lacentral-d.vercel.app',
-      // Habilitar el intercambio de cookies y credenciales
-      credentials: true,
+      origin: 'https://fornt-lacentral-d.vercel.app'
     }));
-
-    // Middleware para permitir opciones de preflight CORS
-    this.app.options('*', cors());
 
     this.app.use(cookiesParser())
 
