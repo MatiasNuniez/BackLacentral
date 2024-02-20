@@ -17,6 +17,11 @@ class Server extends Database {
 
     super()
 
+    this.app.use(cors({
+      origin: 'https://fornt-lacentral-d.vercel.app',
+      credentials: true
+    }));
+
     this.app.use((req: Request, res: Response, next: NextFunction) => {
       res.setHeader('Access-Control-Allow-Origin', 'https://fornt-lacentral-d.vercel.app');
       res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
@@ -25,11 +30,6 @@ class Server extends Database {
     });
 
     this.app.use(express.json())
-
-    this.app.use(cors({
-      // origin: 'https://fornt-lacentral-d.vercel.app',
-      credentials: true
-    }));
 
     this.app.use(cookiesParser())
 
