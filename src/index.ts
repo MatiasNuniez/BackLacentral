@@ -20,7 +20,8 @@ class Server extends Database {
     this.app.use(express.json())
 
     this.app.use(cors({
-      origin: 'https://fornt-lacentral-d.vercel.app'
+      origin: 'https://fornt-lacentral-d.vercel.app',
+      credentials:true
     }));
 
     this.app.use(cookiesParser())
