@@ -5,7 +5,12 @@ import { AuthMiddleware } from "../middlewares/auth.middleware";
 export class GeneralController extends AuthMiddleware {
 
   async getElements(req: Request, res: Response) {
-    const auth = await this.verifyIdentity(req, res)
+    const user = Array.isArray(req.headers['user']) 
+    ? req.headers['user'][0] 
+    : req.headers['user'] || '';
+    const token = req.headers.authorization?.split('')[1] || '';
+    console.log(user, token);
+    const auth = await this.verifyIdentity(req, res, user, token)
     if (auth) {
       try {
         await modelGeneral.find({ state: true }).then((data) => {
@@ -15,13 +20,17 @@ export class GeneralController extends AuthMiddleware {
         res.send({ ERROR: error })
       }
     }
-    else{
+    else {
       res.send('No tienes los permisos necesarios')
     }
   }
 
   async insertElement(req: Request, res: Response) {
-    const auth = await this.verifyIdentity(req, res)
+    const user = Array.isArray(req.headers['user']) 
+    ? req.headers['user'][0] 
+    : req.headers['user'] || ''
+    const token = req.headers.authorization?.split('')[1] || '';
+    const auth = await this.verifyIdentity(req, res, user, token)
     if (auth) {
       try {
         const data = req.body
@@ -34,7 +43,11 @@ export class GeneralController extends AuthMiddleware {
   }
 
   async editElement(req: Request, res: Response) {
-    const auth = await this.verifyIdentity(req, res)
+    const user = Array.isArray(req.headers['user']) 
+    ? req.headers['user'][0] 
+    : req.headers['user'] || ''
+    const token = req.headers.authorization?.split('')[1] || '';
+    const auth = await this.verifyIdentity(req, res, user, token)
     if (auth) {
       try {
         const { id } = req.params
@@ -43,13 +56,17 @@ export class GeneralController extends AuthMiddleware {
       } catch (error) {
         res.send({ ERROR: error })
       }
-    }else{
+    } else {
       res.send('No tienes los permisos necesarios')
     }
   }
 
   async deleteElement(req: Request, res: Response) {
-    const auth = await this.verifyIdentity(req, res)
+    const user = Array.isArray(req.headers['user']) 
+    ? req.headers['user'][0] 
+    : req.headers['user'] || ''
+    const token = req.headers.authorization?.split('')[1] || '';
+    const auth = await this.verifyIdentity(req, res, user, token)
     if (auth) {
       try {
         const { id } = req.params
@@ -57,7 +74,7 @@ export class GeneralController extends AuthMiddleware {
       } catch (error) {
         res.send({ ERROR: error })
       }
-    }else{
+    } else {
       res.send('No tienes los permisos necesarios')
     }
   }

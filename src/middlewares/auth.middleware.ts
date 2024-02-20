@@ -11,13 +11,13 @@ export class AuthMiddleware {
     this.key = SECRET || ""
   }
 
-  async verifyIdentity(req: Request, res: Response){
-    const token = req.headers.authorization?.split('')[1] || '';
-    const user  = req.headers.user
+  async verifyIdentity(req: Request, res: Response, user:string, tokenHeader:string){
+    const token = tokenHeader
+    const User  = user
     try {
       const verify = jwt.verify(token, this.key)
-      if ((user !== '') && (verify)) {
-        await loginModel.find({ user: { $eq: user } }).then((data) => {
+      if ((User !== '') && (verify)) {
+        await loginModel.find({ user: { $eq: User } }).then((data) => {
           if (data[0].admin === true) {
             res.status(200)
             return true
