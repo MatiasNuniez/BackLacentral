@@ -42,6 +42,9 @@ export class GeneralController extends AuthMiddleware {
       const { id } = req.params
       const update = req.body
       await modelGeneral.updateOne({ _id: id }, update)
+      await modelGeneral.find({ state: true }).then((data) => {
+        res.send(data)
+      })
     } catch (error) {
       res.send({ ERROR: error })
     }
