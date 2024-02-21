@@ -43,11 +43,12 @@ export class GeneralController extends AuthMiddleware {
     try {
       const { id } = req.params
       const update = req.body
-      const updateElement = await modelGeneral.updateOne({ _id: id }, update)
-    if (!update) {
+      const updateElement = await modelGeneral.findByIdAndUpdate(id, update, { new: true });
+      // const updateElement = await modelGeneral.updateOne({ _id: id }, update)
+    if (!updateElement) {
       return res.status(404).json({ mensaje: 'Elemento no encontrado' });
     }
-    res.send(updateElement);
+    res.json(updateElement);
       // await modelGeneral.find({ state: true }).then((data) => {
       //   res.send(data)
       // })
