@@ -8,7 +8,7 @@ export class GeneralController extends AuthMiddleware {
     const user = Array.isArray(req.headers['user']) 
     ? req.headers['user'][0] 
     : req.headers['user'] || '';
-    const token = req.headers.authorization?.split('')[0]
+    const token = req.headers.authorization?.split(' ')[1]
     console.log(token);
       try {
         await modelGeneral.find({ state: true }).then((data) => {
