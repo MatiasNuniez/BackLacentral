@@ -26,7 +26,7 @@ export class GeneralController extends AuthMiddleware {
     try {
       const data = req.body
       await modelGeneral.insertMany(data)
-      const lastElement = await modelGeneral.find({ user: { $eq: data.numero } })
+      const lastElement = await modelGeneral.find({ numero: { $eq: data.numero } })
       res.send(lastElement)
     } catch (error) {
       res.send({ ERROR: error })
