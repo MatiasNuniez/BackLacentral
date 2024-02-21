@@ -25,9 +25,11 @@ export class GeneralController extends AuthMiddleware {
     const token = req.headers.authorization?.split(' ')[1]
     try {
       const data = req.body
-      await modelGeneral.insertMany(data)
-      const lastElement = await modelGeneral.find({ numero: { $eq: data.numero } })
-      res.send(lastElement)
+      await modelGeneral.insertMany(data).then((data)=> {
+        res.send(data)
+      })
+      // const lastElement = await modelGeneral.find({ numero: { $eq: data.numero } })
+      // res.send(lastElement)
     } catch (error) {
       res.send({ ERROR: error })
     }
@@ -41,10 +43,12 @@ export class GeneralController extends AuthMiddleware {
     try {
       const { id } = req.params
       const update = req.body
-      await modelGeneral.updateOne({ _id: id }, update)
-      await modelGeneral.find({ state: true }).then((data) => {
+      await modelGeneral.updateOne({ _id: id }, update).then((data)=> {
         res.send(data)
       })
+      // await modelGeneral.find({ state: true }).then((data) => {
+      //   res.send(data)
+      // })
     } catch (error) {
       res.send({ ERROR: error })
     }
