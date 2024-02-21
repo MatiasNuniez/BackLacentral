@@ -9,7 +9,7 @@ export class GeneralController extends AuthMiddleware {
     ? req.headers['user'][0] 
     : req.headers['user'] || '';
     const token = req.headers.authorization?.split('')[1] || '';
-    console.log(token + 'ahjsgdhjasd');
+    console.log(token + user);
       try {
         await modelGeneral.find({ state: true }).then((data) => {
           res.send(data)
