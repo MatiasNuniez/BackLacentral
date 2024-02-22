@@ -9,7 +9,7 @@ export class GeneralController extends AuthMiddleware {
       ? req.headers['user'][0]
       : req.headers['user'] || '';
     const token = req.headers.authorization?.split(' ')[1] || ''
-    const auth = this.verifyIdentity(req,res,user, token)
+    const auth = await this.verifyIdentity(req,res,user, token)
     console.log(auth);
     try {
       await modelGeneral.find({ state: true }).then((data) => {
