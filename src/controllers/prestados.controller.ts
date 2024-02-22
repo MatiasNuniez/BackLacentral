@@ -13,7 +13,7 @@ export class PrestadosController {
         res.send(data)
       })
     } catch (error) {
-      res.send({ ERROR: error })
+      res.status(409).send({ ERROR: error })
     }
   }
 
@@ -24,11 +24,11 @@ export class PrestadosController {
     const token = req.headers.authorization?.split(' ')[1]
     try {
       const data = req.body
-      await modelPrestados.insertMany(data)
-      const lastElement = await modelPrestados.find({ numero: { $eq: data.numero } })
-      res.send(lastElement)
+      await modelPrestados.insertMany(data).then((data) => {
+        res.status(200).send(data)
+      })
     } catch (error) {
-      res.send({ ERROR: error })
+      res.status(409).send({ ERROR: error })
     }
   }
 
@@ -40,12 +40,13 @@ export class PrestadosController {
     try {
       const { id } = req.params
       const update = req.body
-      await modelPrestados.updateOne({ _id: id }, update)
-      await modelPrestados.find({ state: true }).then((data) => {
-        res.send(data)
-      })
+      const updateElement = await modelPrestados.findByIdAndUpdate(id, update, { new: true });
+      if(!updateElement){
+        res.status(404).json({mensaje:'Elemento no encontrado'})
+      }
+      res.json(updateElement)
     } catch (error) {
-      res.send({ ERROR: error })
+      res.status(409).send({ ERROR: error })
     }
   }
 
@@ -57,9 +58,9 @@ export class PrestadosController {
     try {
       const { id } = req.params
       await modelPrestados.updateOne({ _id: id }, { $set: { state: false } })
-      res.send(id)
+      res.status(200).send(id)
     } catch (error) {
-      res.send({ ERROR: error })
+      res.status(409).send({ ERROR: error })
     }
   }
 

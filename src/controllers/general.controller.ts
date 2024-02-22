@@ -8,13 +8,15 @@ export class GeneralController extends AuthMiddleware {
     const user = Array.isArray(req.headers['user'])
       ? req.headers['user'][0]
       : req.headers['user'] || '';
-    const token = req.headers.authorization?.split(' ')[1]
+    const token = req.headers.authorization?.split(' ')[1] || ''
+    const auth = this.verifyIdentity(req,res,user, token)
+    console.log(auth);
     try {
       await modelGeneral.find({ state: true }).then((data) => {
         res.send(data)
       })
     } catch (error) {
-      res.send({ ERROR: error })
+      res.status(409).send({ ERROR: error })
     }
   }
 
@@ -26,12 +28,10 @@ export class GeneralController extends AuthMiddleware {
     try {
       const data = req.body
       await modelGeneral.insertMany(data).then((data)=> {
-        res.send(data)
+        res.status(200).send(data)
       })
-      // const lastElement = await modelGeneral.find({ numero: { $eq: data.numero } })
-      // res.send(lastElement)
     } catch (error) {
-      res.send({ ERROR: error })
+      res.status(409).send({ ERROR: error })
     }
   }
 
@@ -44,16 +44,12 @@ export class GeneralController extends AuthMiddleware {
       const { id } = req.params
       const update = req.body
       const updateElement = await modelGeneral.findByIdAndUpdate(id, update, { new: true });
-      // const updateElement = await modelGeneral.updateOne({ _id: id }, update)
     if (!updateElement) {
       return res.status(404).json({ mensaje: 'Elemento no encontrado' });
     }
     res.json(updateElement);
-      // await modelGeneral.find({ state: true }).then((data) => {
-      //   res.send(data)
-      // })
     } catch (error) {
-      res.send({ ERROR: error })
+      res.status(409).send({ ERROR: error })
     }
   }
 
@@ -66,9 +62,9 @@ export class GeneralController extends AuthMiddleware {
     try {
       const { id } = req.params
       await modelGeneral.updateOne({ _id: id }, { $set: { state: false } })
-      res.send(id)
+      res.status(200).send(id)
     } catch (error) {
-      res.send({ ERROR: error })
+      res.status(409).send({ ERROR: error })
     }
   }
 }
