@@ -1,13 +1,13 @@
 import { Request, Response } from "express";
 import { modelGeneral } from "../models/general.model";
-import jwt, { verify } from "jsonwebtoken";
+import jwt from "jsonwebtoken";
 import { SECRET } from "../config/config";
 
-export class GeneralController{
+export class GeneralController {
 
-  private key:string
+  private key: string
 
-  constructor(){
+  constructor() {
     this.key = SECRET || ''
   }
 
@@ -21,15 +21,15 @@ export class GeneralController{
       } catch (error) {
         res.status(409).send({ ERROR: error })
       }
-    }else{
-      res.status(403).send({mensaje: 'No tienes los permisos, inicie sesion'})
-    }  
+    } else {
+      res.status(403).send({ mensaje: 'No tienes los permisos, inicie sesion' })
+    }
   }
-    
+
 
   async insertElement(req: Request, res: Response) {
     const token = req.headers.authorization?.split(' ')[1] || ''
-    if(jwt.verify(token, this.key)){
+    if (jwt.verify(token, this.key)) {
       try {
         const data = req.body
         await modelGeneral.insertMany(data).then((data) => {
@@ -38,8 +38,8 @@ export class GeneralController{
       } catch (error) {
         res.status(409).send({ ERROR: error })
       }
-    }else{
-      res.status(403).send({mensaje: 'No tienes los permisos, inicie sesion'})
+    } else {
+      res.status(403).send({ mensaje: 'No tienes los permisos, inicie sesion' })
     }
   }
 
@@ -57,10 +57,10 @@ export class GeneralController{
       } catch (error) {
         res.status(409).send({ ERROR: error })
       }
-    }else{
-      res.status(403).send({mensaje: 'No tienes los permisos, inicie sesion'})
+    } else {
+      res.status(403).send({ mensaje: 'No tienes los permisos, inicie sesion' })
     }
-    
+
   }
 
 
@@ -74,6 +74,6 @@ export class GeneralController{
       } catch (error) {
         res.status(409).send({ ERROR: error })
       }
-    }res.status(403).send({mensaje: 'No tienes los permisos, inicie sesion'})
+    } res.status(403).send({ mensaje: 'No tienes los permisos, inicie sesion' })
   }
 }
