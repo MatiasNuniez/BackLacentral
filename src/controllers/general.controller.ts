@@ -9,8 +9,11 @@ export class GeneralController extends AuthMiddleware {
       ? req.headers['user'][0]
       : req.headers['user'] || '';
     const token = req.headers.authorization?.split(' ')[1] || ''
-    const auth = await this.verifyIdentity(req,res,user, token)
-    console.log(auth);
+    if (await this.verifyIdentity(req, res, user, token)) {
+      console.log('matias');
+    }else{
+      console.log("nomatias");
+    }
     try {
       await modelGeneral.find({ state: true }).then((data) => {
         res.send(data)
@@ -27,7 +30,7 @@ export class GeneralController extends AuthMiddleware {
     const token = req.headers.authorization?.split(' ')[1]
     try {
       const data = req.body
-      await modelGeneral.insertMany(data).then((data)=> {
+      await modelGeneral.insertMany(data).then((data) => {
         res.status(200).send(data)
       })
     } catch (error) {
@@ -44,10 +47,10 @@ export class GeneralController extends AuthMiddleware {
       const { id } = req.params
       const update = req.body
       const updateElement = await modelGeneral.findByIdAndUpdate(id, update, { new: true });
-    if (!updateElement) {
-      return res.status(404).json({ mensaje: 'Elemento no encontrado' });
-    }
-    res.json(updateElement);
+      if (!updateElement) {
+        return res.status(404).json({ mensaje: 'Elemento no encontrado' });
+      }
+      res.json(updateElement);
     } catch (error) {
       res.status(409).send({ ERROR: error })
     }
