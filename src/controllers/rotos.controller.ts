@@ -82,7 +82,7 @@ export class RotosController {
           const deleteElement = await modelRotos.findByIdAndDelete(id)
           if (!deleteElement) {
             res.status(404).send({ mensaje: 'No se pudo eliminar el dato' })
-          } res.status(200).send({ mensaje: 'Elemento eliminado correctamente' })
+          } res.status(200).send(id)
         } catch (error) {
           res.send({ ERROR: error })
         }
