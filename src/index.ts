@@ -18,7 +18,7 @@ class Server extends Database {
     super()
 
     this.app.use(cors({
-      origin: 'https://fornt-lacentral-d.vercel.app',
+      origin: 'https://celularesezequiel.vercel.app',
       credentials: true
     }));
 
