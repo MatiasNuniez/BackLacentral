@@ -19,7 +19,7 @@ export class LoginController {
                     const payload = {
                         check: true
                     }
-                    const token = jsonwebtoken.sign(payload, this.key, { expiresIn: '12h' })
+                    const token = jsonwebtoken.sign(payload, this.key)
                     res.status(200).send({ data, token })
                 } else {
                     res.json({ error: 'Contrasena o usuario invalido' })
